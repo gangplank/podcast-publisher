@@ -11,21 +11,19 @@ TMP_FILE4=/tmp/out_3.output.wav
 OUTPUT_MP3_FILE=`echo "$SOURCE_FILE" | sed -e s/\.wav//`.mp3
 
 
-# rm -f $TMP_FILE1 $TMP_FILE2 $TMP_FILE3 $TMP_FILE4
+rm -f $TMP_FILE1 $TMP_FILE2 $TMP_FILE3 $TMP_FILE4
 
-# sox "$SOURCE_FILE" $TMP_FILE1 pad 7
-# sox -m $INTRO_WAV_FILE $TMP_FILE1 $TMP_FILE2
-# sox --combine concatenate $TMP_FILE2 $OUTRO_WAV_FILE $TMP_FILE3
+sox "$SOURCE_FILE" $TMP_FILE1 pad 7
+sox -m $INTRO_WAV_FILE $TMP_FILE1 $TMP_FILE2
+sox --combine concatenate $TMP_FILE2 $OUTRO_WAV_FILE $TMP_FILE3
 
-# /Applications/Levelator.app/Contents/MacOS/Levelator $TMP_FILE3
+/Applications/Levelator.app/Contents/MacOS/Levelator $TMP_FILE3
 
-# lame $TMP_FILE4 $OUTPUT_MP3_FILE
+lame $TMP_FILE4 $OUTPUT_MP3_FILE
 
-# echo "uploading to s3"
-# podcast_url=`s3cmd --config=$S3_CONFIG_FILE put --acl-public --guess-mime-type $OUTPUT_MP3_FILE s3://$S3_BUCKET | grep -o 'http.*'`
-# echo "S3 url: $podcast_url"
-
-podcast_url="http://s3.amazonaws.com/SCRUMCast/agile_weekly-2013-09-18.mp3"
+echo "uploading to s3"
+podcast_url=`s3cmd --config=$S3_CONFIG_FILE put --acl-public --guess-mime-type $OUTPUT_MP3_FILE s3://$S3_BUCKET | grep -o 'http.*'`
+echo "S3 url: $podcast_url"
 
 echo "posting to Wordpress"
 phantomjs post_blog.coffee "`cat blog_post.json`" "$podcast_url" | tee phantom_result.txt
