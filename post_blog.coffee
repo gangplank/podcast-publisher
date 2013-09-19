@@ -1,4 +1,5 @@
 system = require('system')
+env    = system.env
 args = JSON.parse system.args[1]
 args.podcast_url = system.args[2]
 
@@ -6,26 +7,26 @@ page = require('webpage').create()
 page.viewportSize = width: 1024, height: 768
 
 login = ->
-  console.log 'opening page'
-  page.open "http://www.integrumtech.com/wp-admin"
+  console.log "opening: #{env.BLOG_ADMIN_URL}"
+  page.open env.BLOG_ADMIN_URL
 
 fill_login_form = ->
   console.log 'fill_login_form'
 
-  page.evaluate ->
-    console.log 'filling in form'
-    jQuery('#user_login').val 'USERNAME'
-    jQuery('#user_pass').val 'PASSWORD'
+  page.evaluate (env) ->
+    jQuery('#user_login').val env.BLOG_USERNAME
+    jQuery('#user_pass').val env.BLOG_PASSWORD
     jQuery('#wp-submit').click()
+  , env
 
 goto_new_post = ->
   console.log 'goto_new_post'
-  page.open "http://integrumtech.com/wp-admin/post-new.php"
+  page.open "#{env.BLOG_ADMIN_URL}/post-new.php"
 
 
 fill_post_info = ->
   console.log 'fill_post_info'
-  page.evaluate (args) ->
+  page.evaluate ({args,env}=options) ->
     jQuery('#content-html').click()
     jQuery('#title').val args.title
     jQuery('#content').val args.blurb
@@ -40,13 +41,13 @@ fill_post_info = ->
     jQuery('#mn').val args.publish_date.minute
     jQuery('.curtime .save-timestamp').click()
 
-    jQuery("#in-category-155").prop("checked", true) # Agile Weekly Podcast category
+    jQuery("#in-category-#{env.BLOG_CATEGORY_NUMBER}").prop("checked", true) # Agile Weekly Podcast category
 
     for tag in args.tags
       jQuery("#new-tag-post_tag").val tag
       jQuery(".button.tagadd").click()
 
-  , args
+  , args: args, env: env
 
   next_step()
 

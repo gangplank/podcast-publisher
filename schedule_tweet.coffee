@@ -1,4 +1,5 @@
 system = require('system')
+env  = system.env
 args = JSON.parse system.args[1]
 args.bitly_link = system.args[2]
 
@@ -16,11 +17,12 @@ login = ->
 fill_login_form = ->
   console.log 'fill_login_form'
 
-  page.evaluate ->
+  page.evaluate (env) ->
     console.log 'filling in form'
-    document.getElementById("username_or_email").value = USERNAME
-    document.getElementById("password").value = PASSWORD
+    document.getElementById("username_or_email").value = env.TWITTER_USERNAME
+    document.getElementById("password").value = env.TWITTER_PASSWORD
     document.getElementById("oauth_form").submit()
+  , env
 
 wait_for_oauth = ->
   console.log "waiting for oauth"
