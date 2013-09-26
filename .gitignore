@@ -1,5 +1,8 @@
-intro.wav
-outro.wav
-config.sh
+*config.sh
 .editorconfig
 phantom_result.txt
+*s3cfg
+*.wav
+*_blog_post.json
+blog_post.json
+transcript.json
