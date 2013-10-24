@@ -20,14 +20,14 @@ Configuration
 
 Copy the example config and edit
 
-    cp config.sh-example config.sh
+    cp example.config my_podcast.config
 
 Usage
 -----
 
 Edit blog_post.json with the information for this episode
 
-    ./post_produce.sh $FILE
+    ./post_produce.sh -c $CONFIG_FILE -j $AUDO_FILE
 
 Your input file must be a '.wav'.
 The output file will be located in the same directory as the input file,
