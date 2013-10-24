@@ -27,7 +27,7 @@ Usage
 
 Edit blog_post.json with the information for this episode
 
-    ./post_produce.sh -c $CONFIG_FILE -j $AUDO_FILE
+    ./post_produce.sh -c $CONFIG_FILE -j $BLOG_POST_FILE $AUDO_FILE
 
 Your input file must be a '.wav'.
 The output file will be located in the same directory as the input file,
