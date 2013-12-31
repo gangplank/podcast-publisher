@@ -9,7 +9,7 @@ Installation
 
 Install to applications: http://cdn.conversationsnetwork.org/Levelator-2.1.1.dmg
 
-    brew install sox lame s3cmd phantomjs
+    brew install lame sox s3cmd phantomjs
 
 Setup S3
 
